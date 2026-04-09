@@ -15,7 +15,7 @@ namespace AdvancedBankingSystem
         public static decimal BankTotalMoney { get; set; } = 0;
         public static int TransactionCounter { get; set; } = default;
 
-        // -------- INSTANCE VARIABLES --------
+        // -------- INSTANCE VARIABLES ---------
         public int AccountNumber { get; set; }
         public string AccountHolder { get; set; }
         public decimal Balance { get; set; }

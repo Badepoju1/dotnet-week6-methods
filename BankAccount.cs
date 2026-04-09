@@ -121,7 +121,7 @@ namespace AdvancedBankingSystem
         }
         
 
-        // -------- CALCULATE INTEREST OVERLOADS --------
+        // -------- CALCULATE INTEREST OVERLOADS ---------
         // Simple interest with default rate 2%
         public decimal CalculateInterest(int months)
         {

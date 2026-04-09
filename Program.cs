@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AdvancedBankingSystem
 {
-    // ================= MAIN PROGRAM =================
+    // ================= MAIN PROGRAM =================//
     static class Program
-    {
+    { 
         static List<BankAccount> accounts = new List<BankAccount>();
 
         static void Main(string[] args)

@@ -4,10 +4,13 @@ using System.Collections.Generic;
 namespace AdvancedBankingSystem
 {
     // ================= MAIN PROGRAM =================//
+    // Simple console UI for interacting with the demo banking system.
+    // Contains menus and helper methods that call into the model classes.
     static class Program
     { 
         static List<BankAccount> accounts = new List<BankAccount>();
 
+        // Application entry point: show menu and dispatch user choices.
         static void Main(string[] args)
         {
             Console.WriteLine("====================================");
@@ -33,6 +36,7 @@ namespace AdvancedBankingSystem
 
                     if (!int.TryParse(Console.ReadLine(), out int choice)) continue;
 
+                    // Dispatch the user's menu choice to the appropriate handler
                     switch (choice)
                     {
                         case 1:
@@ -112,10 +116,12 @@ namespace AdvancedBankingSystem
             }
         }
 
+        // Prompt for and create a new account. Validates name, deposit and type.
         static void CreateAccount()
         {
             Console.Write("Enter Your FullName: ");
             var name = Console.ReadLine();
+            // continue to loop as long as the name is empty or null
             while (string.IsNullOrEmpty(name)) // continue to loop as long as the field is empty or null
             {
                 Console.WriteLine("Name cannot be empty or null");
@@ -123,6 +129,7 @@ namespace AdvancedBankingSystem
                 name = Console.ReadLine()!; // ask again
             }
             
+            // Prompt and validate an initial deposit amount
             Console.Write("Initial deposit: ");
             decimal dep;
             while (!decimal.TryParse(Console.ReadLine(), out dep) || dep < 0)
@@ -131,6 +138,7 @@ namespace AdvancedBankingSystem
                 Console.Write("Initial deposit: ");
             }
             
+            // Prompt and validate account type (accept both numeric and text choices)
             Console.Write("Type (1=Savings, 2=Current or enter Savings/Current): ");
             string? type = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(type) ||
@@ -149,6 +157,8 @@ namespace AdvancedBankingSystem
             Console.WriteLine($"Account #{acct.AccountNumber} created: {acct.AccountHolder} - ${acct.Balance}");
         }
 
+        // Prompt the user to select an account by index. Returns null if selection is invalid.
+        // Callers should check for null before using the returned BankAccount.
         static BankAccount SelectAccount(string prompt)
         {
             Console.Write(prompt);
@@ -157,6 +167,7 @@ namespace AdvancedBankingSystem
             return accounts[idx - 1];
         }
 
+        // Menu flow for depositing money into an account
         static void DepositMenu()
         {
             var acc = SelectAccount("Account #: "); if (acc == null) return;
@@ -164,6 +175,7 @@ namespace AdvancedBankingSystem
             if (acc.Deposit(amt)) Console.WriteLine("Deposit successful."); else Console.WriteLine("Deposit failed.");
         }
 
+        // Menu flow for withdrawing money from an account
         static void WithdrawMenu()
         {
             var acc = SelectAccount("Account #: "); if (acc == null) return;
@@ -171,6 +183,7 @@ namespace AdvancedBankingSystem
             if (acc.Withdraw(amt)) Console.WriteLine("Withdrawal successful."); else Console.WriteLine("Withdrawal failed - check balance.");
         }
 
+        // Menu flow for transferring money between accounts. Supports optional description and notification.
         static void TransferMenu()
         {
             Console.WriteLine("Select Transfer Type: 1. Basic 2. With Description 3. With Description & Notification");
@@ -178,22 +191,26 @@ namespace AdvancedBankingSystem
             var from = SelectAccount("From Account #: "); if (from == null) return;
             var to = SelectAccount("To Account #: "); if (to == null) return;
             Console.Write("Amount: "); if (!decimal.TryParse(Console.ReadLine(), out decimal amt) || amt <= 0) { Console.WriteLine("Invalid amount."); return; }
+            // Basic transfer (no description)
             if (t == 1)
             {
                 if (from.Transfer(to, amt)) Console.WriteLine("Transfer successful."); else Console.WriteLine("Transfer failed.");
             }
             else if (t == 2)
             {
+                // Transfer with description
                 Console.Write("Description: "); string? desc = Console.ReadLine()!;
                 if (from.Transfer(to, amt, desc)) Console.WriteLine("Transfer successful."); else Console.WriteLine("Transfer failed.");
             }
             else
             {
+                // Transfer with description and notification flag
                 Console.Write("Description: "); string? desc = Console.ReadLine()!;
                 if (from.Transfer(to, amt, desc, true)) Console.WriteLine("Transfer successful."); else Console.WriteLine("Transfer failed.");
             }
         }
 
+        // Menu flow for interest calculations on a selected account
         static void CalculateInterestMenu()
         {
             var acc = SelectAccount("Account #: "); if (acc == null) return;
@@ -205,11 +222,13 @@ namespace AdvancedBankingSystem
             else { Console.Write("Rate: "); if (!decimal.TryParse(Console.ReadLine(), out decimal r)) { Console.WriteLine("Invalid rate."); return; } Console.WriteLine(acc.CalculateInterest(months, r, true)); }
         }
 
+        // Display all accounts and their transaction histories
         static void ViewAccounts()
         {
             foreach (var acc in accounts) acc.DisplayAccountInfo();
         }
 
+        // Demonstrations: pass-by-value, pass-by-ref and out parameter usage
         static void TestPassByExamples()
         {
             Console.WriteLine("-- Pass by value/ref/out demo --");
@@ -227,6 +246,7 @@ namespace AdvancedBankingSystem
                 Console.WriteLine("ProcessTransaction failed.");
         }
 
+        // Prompt to confirm exit; exits process on confirmation
         static void Exitprogram()
         {
             Console.Write("Are you sure you want to exit? (y/n): ");
@@ -243,6 +263,7 @@ namespace AdvancedBankingSystem
             }
         }
 
+        // Small helper that pauses until Enter is pressed and clears the console
         static void pause()
         {
             Console.WriteLine("\nPress Enter to return to the menu...");

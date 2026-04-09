@@ -1,7 +1,7 @@
 namespace AdvancedBankingSystem
 {
     // ================= RECURSION =================
-    public class LoanCalculator
+    public static class LoanCalculator
     {
         public static void DisplayPaymentSchedule(int months, decimal payment)
         {

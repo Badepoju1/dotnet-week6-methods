@@ -11,7 +11,6 @@ namespace AdvancedBankingSystem
     public class BankAccount
     {
         // -------- STATIC VARIABLES --------
-        // help me with a 
         public static int TotalAccounts { get; set; } = default;
         public static decimal BankTotalMoney { get; set; } = 0;
         public static int TransactionCounter { get; set; } = default;

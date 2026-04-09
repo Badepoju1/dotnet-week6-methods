@@ -35,7 +35,7 @@ namespace AdvancedBankingSystem
             return true;
         }
         
-        // -------- OPTIONAL PARAMETER METHOD (REQUIRED TASK) --------
+        // -------- OPTIONAL PARAMETER METHOD (REQUIRED TASK) ---------
         public static BankAccount CreateSavingsAccount(
             string accountHolder,
             decimal initialDeposit,
